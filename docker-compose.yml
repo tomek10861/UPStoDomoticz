@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  nut-server:
+    image: upshift/nut-upsd
+    container_name: nut-upsd
+    hostname: nut-upsd
+    restart: always
+    networks:
+      - nut-network
+#USB port of UPS, lsusb should show path
+    devices:
+      - /dev/bus/usb/002/002
+    environment:
+      - UPS_NAME=volt
+      - UPS_DESC=UPS Volt Polska
+#UPS Driver
+      - UPS_DRIVER=nutdrv_qx
+      - UPS_PORT=auto
+      - API_USER=upsmon
+      - API_PASSWORD=123456789ABCDEFGH
+      - ADMIN_PASSWORD=123456789ABCDEFGH
+      - SHUTDOWN_CMD=echo 'Home has no current. Proceeding to shut down...'
+      - DRIVER_OPTIONS="subdriver=fabula productid=0000 vendorid=0001"
+    ports:
+      - "3493:3493"
+
+  my-ups-monitor:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-ups-monitor
+    restart: always
+    networks:
+      - nut-network
+    environment:
+      - DOMOTICZ_URL=http://192.168.25.24:8080
+      - DOMOTICZ_LOGIN=admin
+      - DOMOTICZ_PASSWORD=password
+      - UPS_NAME=volt
+      - UPS_HOST=nut-server
+      - UPS_PORT=3493
+#Power of ups to calculatr UPS Load
+      - UPS_POWER=480
+
+networks:
+  nut-network:
+
