@@ -1,4 +1,4 @@
-# UPStoDomoticz
+# UPS VOLT to Domoticz
 
 ![Screenshot of the Domoticz home automation system's web interface, featuring a top bar with filter options and search functionality, a Lights/Switches section displaying the status of a light switch in the Server Room Basement, and a Utility Sensors section showing various sensors such as voltage, power consumption, and UPS load percentage. The interface is organized in a grid layout, with each device presented in a separate box.](domoticz_screenshot.png)
 
